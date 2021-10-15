@@ -71,15 +71,15 @@ For this project I sought to identify and predict upon key drivers of hurricanes
         6. data dictionary
 
              ### DATA DICTIONARY FOR THIS PROJECT 
-C – Closest approach to a coast, not followed by a landfall
-G – Genesis
-I – An intensity peak in terms of both pressure and wind
-L – Landfall (center of system crossing a coastline)
-P – Minimum in central pressure
-R – Provides additional detail on the intensity of the cyclone when rapid changes are underway
-S – Change of status of the system
-T – Provides additional detail on the track (position) of the cyclone
-W – Maximum sustained wind speed
+- C – Closest approach to a coast, not followed by a landfall
+- G – Genesis
+- I – An intensity peak in terms of both pressure and wind
+- L – Landfall (center of system crossing a coastline)
+- P – Minimum in central pressure
+- R – Provides additional detail on the intensity of the cyclone when rapid changes are underway
+- S – Change of status of the system
+- T – Provides additional detail on the track (position) of the cyclone
+- W – Maximum sustained wind speed
 
 
 status_of_system — The type of storm. Options are:
