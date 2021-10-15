@@ -31,16 +31,17 @@ For this project I sought to identify and predict upon key drivers of hurricanes
        
 #### Explore Stage Planning:
    - Goal: Identify the key driver of the hurricanes by exploring drivers based on their association with feature picked 
-        -Additionally define and visualize those paatterns
-    Summary:
+   - Additionally define and visualize those paatterns
+    
+     Summary:
     - Investigate the interaction between independent variables and the target variable is explored using visualization and statistical testing.
     
   - Explore Stage Checklist:
-        1. Initial Hypothesises documented, Is there a relationship between max_wind and hurricane occurence in the Carribean?
-        2. Plotting/Visualizations: histographs, barplots
-        3. Statistical Testing :  Lag/Autocorrelation
-        4. Visual: Lag/Autocorrelation Plots
-        5. Establish Observations/Takeaways after each visualization and statistical test
+        - 1. Initial Hypothesises documented, Is there a relationship between max_wind and hurricane occurence in the Carribean?
+        - 2. Plotting/Visualizations: histographs, barplots
+        - 3. Statistical Testing :  Lag/Autocorrelation
+        - 4. Visual: Lag/Autocorrelation Plots
+        - 5. Establish Observations/Takeaways after each visualization and statistical test
         
 #### Modeling Stage Planning:
    - Goal/Summary:
@@ -49,13 +50,13 @@ For this project I sought to identify and predict upon key drivers of hurricanes
     - Models created and tested: 'Last Observed Value, Simple Average, Moving Average, and Prophet'
         
   - Modeling Stage Checklist:
-        1. Establish the Scaled/Unscaled** data for modeling
-        2. Set features
-        3. Establish the baseline
-        4. Run models on Train
-        5. Run models on Validate
-        6. Run models on Test
-        7. Observe Results in comparison to the baseline
+        - 1. Establish the Scaled/Unscaled** data for modeling
+        - 2. Set features
+        - 3. Establish the baseline
+        - 4. Run models on Train
+        - 5. Run models on Validate
+        - 6. Run models on Test
+        - 7. Observe Results in comparison to the baseline
 
 #### Deliver Stage Planning:
    - Goal/Summary: You are expected to deliver a github repository with the following contents:
@@ -64,12 +65,12 @@ For this project I sought to identify and predict upon key drivers of hurricanes
 
     
    - Deliver Stage Checklist:
-        1. github repo called individual-project
-        2. a final jupyter notebook for walkthrough of project steps
-        3. ReadMe.md all about the project and how to recreate it
-        4. acquire.py file for retrieving Zillow data
-        5. wranglecarribean.py file that retrieves your prepared/cleaned data
-        6. data dictionary
+        - 1. github repo called individual-project
+        - 2. a final jupyter notebook for walkthrough of project steps
+        - 3. README.md all about the project and how to recreate it
+        - 4. acquire.py file for retrieving Caribbean data
+        - 5. wranglecarribean.py file that retrieves your prepared/cleaned data
+        - 6. data dictionary
 
              ### DATA DICTIONARY FOR THIS PROJECT 
 - C – Closest approach to a coast, not followed by a landfall
