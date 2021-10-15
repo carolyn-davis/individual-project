@@ -338,110 +338,235 @@ def get_storms(storm_df):
     It takes in the df column and converts the status types to booleans.
     '''
     # create dummy vars of storms id
-    storm_df = pd.get_dummies(clean_df.status)
+    storm_df = pd.get_dummies(storm_df.status)
     # rename columns by actual county name
     storm_df.columns = ['T', 'HU', 'TD', 'LO', 'V', 'DB', 'X', 'D']
     # concatenate the dataframe with the 3 county columns to the original dataframe
     storm_df = pd.concat([clean_df, storm_df], axis = 1)
     # drop  status columns
     # df = df.drop(columns = ['status'])
-    return df
+    return storm_df
 
-test = get_storms(clean_df)
+clean_df = get_storms(clean_df)
 
+#thats enough features for now. Data is prepped for visualization:
+    
+#Find the average number of storms over the course of 115 years (1900-2015)
+print(9946/115)   
+#86.48695652173913 avg number of storms each for this period
 
+print(clean_df['max_wind'].sum()/9946)
+# 54.081540317715664 is the avg max wind speed for this period 
+    
+   
+clean_df = clean_df.sort_index()
 
+types = clean_df["status"].unique()
 
+# number of hurricanes
+hurricanes = clean_df[clean_df["status"] == "HU"]
+hurricanes.loc[:, "ones"] = 1
+hurricanes.groupby("year")["ones"].sum().plot(label="num_hurricanes")
+plt.legend(bbox_to_anchor=(1.0, 0.5))
+plt.show()
+plt.close()
 
+def storm_freq_analysis(data, storm):
+    storms = data[data["status"] == storm]
+    storms.loc[:, "ones"] = 1
+    storms.groupby("year")["ones"].sum().plot(label=f"num_of_{storm}")
+    plt.legend(bbox_to_anchor=(1.0, 0.5))
+    plt.show()
+    plt.close()
+    
+    return storms
 
-#Takeaways:
-#left with 226 storms over 65 year period
-#What is the average number of storm per year for this period?
-#Wind speed is indicative of storms, what is the average wind speed over this period?
-
-#Find the average number of storms over the course of 65 years (1950-2015)
-print(226/65)
-#3.476923076923077 avg num of storms
-
-#finding the avg wind speed for storms over the course of 65 years:
-
-
-#-----------------------------------------------------------------------------------
-#A few more tweeks for columns 
-
-#gonna drop this col because focusing on month/year storm analysis
-lat_long_filtered = lat_long_filtered.drop(columns=['time', 'date'])
-
-#-----------------------------------------------------------------------------------
-#looking at the avg wind speed for storms over the last 65 years
-
-print(lat_long_filtered['max_wind'].sum()/226)
-# 68.25221238938053 mph
-
-
-#-----------------------------------------------------------------------------------
-
-#creating dataframe of number of storms per year
-
-#looking at the number of storms for each year 
-count = lat_long_filtered['Year'].value_counts()
-
-
-#change the couunt from a series to a dataframe
-count_df = pd.DataFrame(count)
-
-#reset the index so that it not the year
-count_df = count_df.reset_index()
+storm_freq_collector = {}
+for storm in types:
+    storm_freq_collector[storm] = storm_freq_analysis(clean_df, str(storm))
 
 
-#rename the columns for readibility since the index col is now the year
-count_df = count_df.rename(columns={"index": "Year", "Year": "Count"})
+# intensity of hurricanes
+hurricanes.groupby('year')['max_wind'].median().plot(label='median_max_wind')
+plt.legend(bbox_to_anchor=(1.0, 0.5))
+plt.show()
+plt.close()
+    
+#how does average number of storms change over the years?
+clean_df.groupby('year')['max_wind'].mean().plot(label='max_wind')
+plt.legend(bbox_to_anchor=(1.0, 0.5))
+plt.show()
+plt.close()
 
-count_df = count_df.sort_values(by = "Year", ascending = True)
-#Takeaways:
-    #it appears tht storm count has increased significantly in the last 25 years 
+#how does average number of storms change over over months?
+clean_df.groupby('month')['max_wind'].mean().plot(label='max_wind')
+plt.legend(bbox_to_anchor=(1.0, 0.5))
+plt.show()
+plt.close()
+#Takeaway: Can you guess when hurricane/tropical storm season is?
 
-#-----------------------------------------------------------------------------------
-#Summmarizing this Data and looking at the averages for storms each year
+hurdat = hurricanes[['max_wind']] 
 
-
-grouped_df = lat_long_filtered.groupby(['Year'])
-
-described_df = grouped_df.describe()
-
-described_df = described_df.reset_index()
-
-
-described_df = pd.DataFrame(described_df)
-
-described_df.columns = ['Year', 'Count', "Mean", 'std', 'min', '25%', '50%', '75%', 'Max']
-
-described_df
-
-
-#-----------------------------------------------------------------------------------
-#adding month column to new dataframe
-month_df = lat_long_filtered
-month_df = month_df.drop(['Year'], axis=1)
-
-month_df['Month'] = month_df['Date'].map(lambda x: x.month)
-#############
-
-#group by month
-
-# month_df['Maximum Wind'] = month_df['Maximum Wind'].astype(float)
-month_df.Month = month_df.Month.astype(int)
-
-grouped_df_month = month_df.groupby(['Month'])
-
-described_df_month = grouped_df_month.describe()
-
-described_df_month = described_df_month.reset_index()
+#50% of the hurricane data goes to train
+train_size = int(len(hurdat)*0.5)
 
 
-described_df_month= pd.DataFrame(described_df_month)
 
-described_df_month.columns = ['Month', 'Count', "Mean", 'std', 'min', '25%', '50%', '75%', 'Max']
+#30% of the hurricane data goes to validate
+validate_size = int(len(hurdat)*0.3)
 
-described_df_month
 
+
+#20% of the hurricane data goes to test
+test_size = int(len(hurdat)-train_size - validate_size)
+
+
+#establishing that the end of the validate set is the length of train size and validate size combined
+validate_end_index = train_size + validate_size
+
+
+#train
+train = hurdat[:train_size]
+#validate
+validate = hurdat[train_size:validate_end_index]
+#test
+test = hurdat[validate_end_index:]
+
+
+
+# is len of train + validate + test == lenght of entire dataframe. 
+print(len(train) + len(validate) + len(test) == len(hurdat))
+
+from datetime import timedelta, datetime
+import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error
+from math import sqrt
+from dateutil import parser
+# for tsa 
+import statsmodels.api as sm
+
+train2 = train.copy()
+train2.index = pd.DatetimeIndex(train.index)
+
+validate2 = validate.copy()
+validate2.index = pd.DatetimeIndex(validate.index)
+
+
+test2 = test.copy()
+test2.index = pd.DatetimeIndex(test.index)
+
+
+
+#Visualizing the split data:
+for col in train2.columns:
+    plt.figure(figsize=(12,4))
+    plt.plot(train2[col])
+    plt.plot(validate2[col])
+    plt.plot(test2[col])
+    
+    plt.ylabel(col)
+    plt.title(col)
+    
+    
+    
+
+train2 = pd.DataFrame(train2["max_wind"].resample("Y").median().dropna())
+
+
+#seasonal decomposition - 1 year
+seasonal = sm.tsa.seasonal_decompose(train2["max_wind"], model="additive", period=1)
+seasonal.plot()
+
+
+
+predict_df = hurricanes[['max_wind']].copy()
+
+train_predict = predict_df[:pd.to_datetime("2014-01-01").date()]
+validate_predict = predict_df[pd.to_datetime("2014-01-01").date():pd.to_datetime("2015-01-01").date()]
+test_predict = predict_df[pd.to_datetime("2015-01-01").date():pd.to_datetime("2016-01-01").date()]
+
+
+
+from sklearn import model_selection
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Ridge
+from sklearn.linear_model import Lasso
+from sklearn.linear_model import ElasticNet
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.svm import SVR
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import r2_score
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+from math import sqrt
+
+wind_data = clean_df[['max_wind']].copy()
+
+
+# def train_validate_test(df, target):
+#     '''
+#     this function takes in a dataframe and splits it into 3 samples,
+#     a test, which is 20% of the entire dataframe,
+#     a validate, which is 24% of the entire dataframe,
+#     and a train, which is 56% of the entire dataframe.
+#     It then splits each of the 3 samples into a dataframe with independent variables
+#     and a series with the dependent, or target variable.
+#     The function returns train, validate, test sets and also another 3 dataframes and 3 series:
+#     X_train (df) & y_train (series), X_validate & y_validate, X_test & y_test.
+#     '''
+#     # split df into test (20%) and train_validate (80%)
+#     train_validate, test = (train_test_split(df, test_size=.2, random_state=123))
+   
+#     # split train_validate off into train (70% of 80% = 56%) and validate (30% of 80% = 24%)
+#     train, validate = train_test_split(train_validate, test_size=.3, random_state=123)
+    
+#     # split train into X (dataframe, drop target) & y (series, keep target only)
+#     X_train = train.drop(columns=[target])
+#     y_train = train[target]
+    
+#     # split validate into X (dataframe, drop target) & y (series, keep target only)
+#     X_validate = validate.drop(columns=[target])
+#     y_validate = validate[target]
+    
+#     # split test into X (dataframe, drop target) & y (series, keep target only)
+#     X_test = test.drop(columns=[target])
+#     y_test = test[target]
+    
+#     return train, validate, test, X_train, y_train, X_validate, y_validate, X_test, y_test
+
+
+
+# train, validate, test, X_train, y_train, X_validate, y_validate, X_test, y_test = train_validate_test(wind_data, target='max_wind')
+
+wind_data = wind_data.reset_index()
+wind_data = wind_data.rename(columns={'Date': 'ds', 'max_wind': 'y'})
+
+from fbprophet import Prophet
+model = Prophet(daily_seasonality=True)
+
+model.fit(wind_data)
+
+
+
+future = model.make_future_dataframe(periods=365)
+
+prediction = model.predict(future)
+
+model.plot(prediction)
+
+
+
+model.plot_components(prediction)
+plt.show()
+
+
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
+prediction = pd.concat([prediction, wind_data['y']], axis=1)
+prediction = prediction.dropna()
+
+r2 = r2_score(prediction['y'], prediction['yhat'])
+
+import math
+mse = mean_squared_error(prediction['y'], prediction['yhat'])
+rmse = math.sqrt(mse)
