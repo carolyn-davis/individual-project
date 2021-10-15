@@ -1,6 +1,6 @@
 # individual-project
 ## Project Summary
-For this project I sought to identify and predict upon key drivers of hurricanes in the Caribbean region of the Atlantic Ocean that are supported with various machine learning models. The data for this project was acquired from Kaggle.com. The data known as Hurricanes and Typhoons 1851-2015 originates from public data repositories provided by National Hurricane Center(NHC). Of this dataset the Atlantic was chosen for the development of this project. With goal of identifying the specified drivers, it was also a goal of this project to perform all stages stages of the Data Science pipeline, providing key observation, takeaways, and thorough documentation for all actions takes through the course of the project. Further documentation for this project can be found in the documentation provided alongside the dataset.
+For this project I sought to identify and predict upon key drivers of hurricanes in the Caribbean region of the Atlantic Ocean that are supported with various machine learning models. The data for this project was acquired from [Kaggle](https://www.kaggle.com/padamaxnassetti/hurricanes-caribbean/data). The data known as Hurricanes and Typhoons 1851-2015 originates from public data repositories provided by National Hurricane Center(NHC). Of this dataset the Atlantic was chosen for the development of this project. With goal of identifying the specified drivers, it was also a goal of this project to perform all stages stages of the Data Science pipeline, providing key observation, takeaways, and thorough documentation for all actions takes through the course of the project. Further documentation for this project can be found in the documentation provided alongside the dataset.
 
 ## Project Goal:
 - Utilized time series methodologies to identify key drivers of hurricane occurence (the target)
@@ -14,7 +14,7 @@ For this project I sought to identify and predict upon key drivers of hurricanes
 
 ## Project Planning:
 #### Prepare Stage Planning:
-   - Goal:  Leave this stage a wrangle.py file saved to git repo
+   - Goal:  Leave this stage a wranglecarribean.py file saved to git repo
                 Pair along with steps for other users to recreate 
     Summary:
     - Column data types are appropriate for the data they contain
@@ -30,8 +30,8 @@ For this project I sought to identify and predict upon key drivers of hurricanes
         6. Unique value counts for future selection
        
 #### Explore Stage Planning:
-   - Goal: Identify the key driver of the target(logerror) by clustering accounts based on their association with feature picked 
-        -Additionally define and label those patterns discovered, How? K-Means, PearsonR, Heatmap 
+   - Goal: Identify the key driver of the hurricanes by exploring drivers based on their association with feature picked 
+        -Additionally define and visualize those paatterns
     Summary:
     - Investigate the interaction between independent variables and the target variable is explored using visualization and statistical testing.
     
