@@ -14,7 +14,7 @@ For this project I sought to identify and predict upon key drivers of hurricanes
 
 ## Project Planning:
 #### Prepare Stage Planning:
-    - Goal:  Leave this stage a wranglecarribean.py file saved to git repo
+  - Goal:  Leave this stage a wranglecarribean.py file saved to git repo
                 Pair along with steps for other users to recreate 
     Summary:
     - Column data types are appropriate for the data they contain
@@ -22,12 +22,12 @@ For this project I sought to identify and predict upon key drivers of hurricanes
     - Outliers are investigated and handled
 
    - Prepare Stage Checklist:
-        1. change values columns
-        2. investigate missing values
-        3. investigate any possible outliers
-        4. If outliers, should they be included/excluded?
-        5. Rename the columns for readibility
-        6. Unique value counts for future selection
+        - 1. change values columns
+        - 2. investigate missing values
+        - 3. investigate any possible outliers
+        - 4. If outliers, should they be included/excluded?
+        - 5. Rename the columns for readibility
+        - 6. Unique value counts for future selection
        
 #### Explore Stage Planning:
    - Goal: Identify the key driver of the hurricanes by exploring drivers based on their association with feature picked 
