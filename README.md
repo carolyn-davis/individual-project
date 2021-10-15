@@ -14,7 +14,7 @@ For this project I sought to identify and predict upon key drivers of hurricanes
 
 ## Project Planning:
 #### Prepare Stage Planning:
-   - Goal:  Leave this stage a wranglecarribean.py file saved to git repo
+    - Goal:  Leave this stage a wranglecarribean.py file saved to git repo
                 Pair along with steps for other users to recreate 
     Summary:
     - Column data types are appropriate for the data they contain
